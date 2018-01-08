@@ -45,11 +45,6 @@ namespace NetCoreMVCPractice
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
-
             app.UseDeveloperExceptionPage();
             app.UseMvcWithDefaultRoute();
             app.UseStatusCodePages();
