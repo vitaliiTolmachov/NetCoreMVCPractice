@@ -14,7 +14,7 @@ namespace NetCoreMVCPractice
 {
     public class Startup
     {
-        private IConfigurationRoot Configuration;
+        public IConfigurationRoot Configuration;
 
         public Startup(IHostingEnvironment env)
         {
@@ -29,9 +29,10 @@ namespace NetCoreMVCPractice
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(_ => Configuration);
             services.AddDbContext<MyAppDbContext>(options =>
                 {
-                    options.UseSqlServer(Configuration["ConnectionStrings:MVCPractice"]);
+                    options.UseSqlServer(Configuration.GetConnectionString("MVCPractice"));
                 });
             services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddMvc();

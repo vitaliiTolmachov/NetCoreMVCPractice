@@ -6,23 +6,24 @@ namespace NetCoreMVCPractice.Models
 {
     public class MyAppDbContext : DbContext, IDesignTimeDbContextFactory<MyAppDbContext>
     {
-        private IConfigurationRoot Configuration;
+        private readonly IConfiguration Config;
         public MyAppDbContext(DbContextOptions<MyAppDbContext> options)
             : base(options)
         {
 
         }
 
-        public MyAppDbContext()
+        public MyAppDbContext(IConfiguration conf, DbContextOptions<MyAppDbContext> options)
+             : base(options)
         {
-            
+            this.Config = conf;
         }
 
         public DbSet<Product> Products { get; set; }
         public MyAppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyAppDbContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MVCPractice;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer(Config.GetConnectionString("MVCPractice"));
             return new MyAppDbContext(optionsBuilder.Options);
         }
     }
